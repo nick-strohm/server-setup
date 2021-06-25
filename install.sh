@@ -72,12 +72,19 @@ setup_docker() {
     ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
 }
 
+setup_ssh() {
+    ssh-keygen -t ed25519 -C "$(hostname)"
+    eval "$(ssh-agent -s)"
+    ssh-add ~/.ssh/id_ed25519
+}
+
 main() {
     setup_color
 
     clone_repo
     setup_zsh
     setup_docker
+    setup_ssh
 
     echo "${YELLOW}Done${RESET}"
 }
