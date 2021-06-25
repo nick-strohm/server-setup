@@ -102,8 +102,8 @@ source $ZSH/oh-my-zsh.sh
 alias zshconfig="nano ~/.zshrc"
 alias ohmyzsh="nano ~/.oh-my-zsh"
 
-alias home="ssh root@10.0.0.2"
-alias service="ssh root@10.0.0.3"
+alias sshhome="ssh root@10.0.0.2"
+alias sshservice="ssh root@10.0.0.3"
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
