@@ -49,11 +49,13 @@ setup_color() {
 }
 
 clone_repo() {
+    apt-get update
     apt-get install -y git
     git clone https://github.com/nick-strohm/server-setup.git /tmp/server-setup
 }
 
 setup_zsh() {
+    apt-get update
     apt-get install -y wget git zsh chroma
     sh -c "$(wget -qO- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh --unattended)"
     git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
@@ -63,8 +65,9 @@ setup_zsh() {
 }
 
 setup_docker() {
-    apt-get remove docker docker-engine docker.io containerd runc
-    apt-get install apt-transport-https ca-certificates curl gnupg lsb-release
+    apt-get update
+    apt-get remove -y docker docker-engine docker.io containerd runc
+    apt-get install -y apt-transport-https ca-certificates curl gnupg lsb-release
     curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
     echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu (lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
     apt-get update
