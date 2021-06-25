@@ -48,27 +48,30 @@ setup_color() {
 	fi
 }
 
-# Helper function to allow installation of a set of packages
-# $1 is a list of packages
-install() {
-    echo "${BLUE}Installing packages \"$1\"${RESET}"
-    #apt-get install -y $1
-}
-
 clone_repo() {
-    REQUIREMENTS="git"
-    install "$REQUIREMENTS"
+    apt-get install -y git
     git clone https://github.com/nick-strohm/server-setup.git /tmp/server-setup
 }
 
 setup_zsh() {
-    REQUIREMENTS="wget git zsh chroma"
-    install "$REQUIREMENTS"
-    #sh -c "$(wget -qO- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh --unattended)"
-    #git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
-    #cp /tmp/server-setup/configurations/.zshrc ~/.zshrc
-    #cp /tmp/server-setup/configurations/.p10k.zsh ~/.p10k.zsh
-    #chsh -s /usr/bin/zsh
+    apt-get install -y wget git zsh chroma
+    sh -c "$(wget -qO- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh --unattended)"
+    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
+    cp /tmp/server-setup/configurations/.zshrc ~/.zshrc
+    cp /tmp/server-setup/configurations/.p10k.zsh ~/.p10k.zsh
+    chsh -s /usr/bin/zsh
+}
+
+setup_docker() {
+    apt-get remove docker docker-engine docker.io containerd runc
+    apt-get install apt-transport-https ca-certificates curl gnupg lsb-release
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+    echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu (lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+    apt-get update
+    apt-get install docker-ce docker-ce-cli containerd.io
+    curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+    chmod +x /usr/local/bin/docker-compose
+    ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
 }
 
 main() {
@@ -76,6 +79,7 @@ main() {
 
     clone_repo
     setup_zsh
+    setup_docker
 
     echo "${YELLOW}Done${RESET}"
     pause
