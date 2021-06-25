@@ -11,11 +11,6 @@
 #   wget https://raw.githubusercontent.com/nick-strohm/server-setup/main/install.sh
 #   sh install.sh
 
-# Halts the execution until the user presses a key
-pause() {
-    read -p "Press enter to continue..."
-}
-
 fmt_error() {
   printf '%sError: %s%s\n' "$BOLD$RED" "$*" "$RESET" >&2
 }
@@ -85,7 +80,6 @@ main() {
     setup_docker
 
     echo "${YELLOW}Done${RESET}"
-    pause
 }
 
 main
