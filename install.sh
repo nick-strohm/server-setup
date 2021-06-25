@@ -56,6 +56,8 @@ install() {
 }
 
 clone_repo() {
+    REQUIREMENTS="git"
+    install "$REQUIREMENTS"
     git clone https://github.com/nick-strohm/server-setup.git /tmp/server-setup
 }
 
