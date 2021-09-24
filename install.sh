@@ -51,7 +51,7 @@ clone_repo() {
 
 setup_zsh() {
     apt-get update
-    apt-get install -y wget git zsh chroma
+    apt-get install -y wget git zsh golang-chroma
     sh -c "$(wget -qO- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
     git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
     cp /tmp/server-setup/configurations/.zshrc ~/.zshrc
